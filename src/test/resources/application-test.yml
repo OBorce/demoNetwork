@@ -7,8 +7,9 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate.hbm2ddl.import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
-      hibernate.hbm2ddl.import_files: /schema_views.sql  # Default is /import.sql
+      hibernate.hbm2ddl.import_files: /test_data.sql  # Default is /import.sql
   flyway:
     enabled: false
 
-
+logging:
+  config: classpath:logback-test.xml

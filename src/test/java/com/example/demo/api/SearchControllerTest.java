@@ -18,119 +18,34 @@ import static org.springframework.restdocs.restassured3.RestAssuredRestDocumenta
 
 @ActiveProfiles("test")
 @SpringBootTest(classes = DemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class PostControllerTest extends BaseTest {
+public class SearchControllerTest extends BaseTest {
 
     @Test
-    public void getPost() {
+    public void getUserWithNickname() {
         final var tokenValue = obtainAccessToken("clientId", "user", "pass");
 
         given(documentationSpec)
                 .accept("application/json")
-                .filter(document("getPost"))
-                .auth()
-                .oauth2(tokenValue)
-                .and()
-                .when()
-                .get("/api/post/1")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .body("title", equalTo("Title"))
-                .body("description", equalTo("Description"))
-        ;
-    }
-
-    @Test
-    public void getPostNotFound() {
-        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
-
-        given(documentationSpec)
-                .auth()
-                .oauth2(tokenValue)
-                .and()
-                .when()
-                .get("/api/post/3213123")
-                .then()
-                .statusCode(HttpStatus.SC_NOT_FOUND)
-        ;
-    }
-
-    @Test
-    public void createPost() throws FileNotFoundException {
-        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
-
-        File file = ResourceUtils.getFile("classpath:data/createPost.json");
-
-        given(documentationSpec)
-                .accept("application/json")
-                .filter(document("createPost"))
+                .filter(document("getUserWithNickname"))
                 .auth()
                 .oauth2(tokenValue)
                 .and()
                 .with()
-                .body(file)
-                .contentType(ContentType.JSON)
                 .when()
-                .post("/api/post")
+                .get("/api/search/user/nickname/Nick")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("title", equalTo("CreatedTitle"))
-                .body("description", equalTo("CreatedDescription"))
+                .body("nickname", equalTo("Nick"))
         ;
     }
 
     @Test
-    public void deletePost() throws FileNotFoundException {
-        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
-
-        File file = ResourceUtils.getFile("classpath:data/updatePost.json");
-
-        given(documentationSpec)
-                .accept("application/json")
-                .filter(document("deletePost"))
-                .auth()
-                .oauth2(tokenValue)
-                .and()
-                .with()
-                .body(file)
-                .contentType(ContentType.JSON)
-                .when()
-                .delete("/api/post/3")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-        ;
-    }
-
-    @Test
-    public void updatePost() throws FileNotFoundException {
-        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
-
-        File file = ResourceUtils.getFile("classpath:data/updatePost.json");
-
-        given(documentationSpec)
-                .accept("application/json")
-                .filter(document("updatePost"))
-                .auth()
-                .oauth2(tokenValue)
-                .and()
-                .with()
-                .body(file)
-                .contentType(ContentType.JSON)
-                .when()
-                .put("/api/post/2")
-                .then()
-                .statusCode(HttpStatus.SC_OK)
-                .body("title", equalTo("NewTitle"))
-                .body("description", equalTo("NewDescription"))
-        ;
-    }
-
-    @Test
-    public void getAllPosts() {
+    public void getAllUsersByCity() {
         final var tokenValue = obtainAccessToken("clientId", "user", "pass");
 
         given(documentationSpec)
                 .accept("application/json")
-                .filter(document("getPostChronologically"))
+                .filter(document("getUserByCity"))
                 .auth()
                 .oauth2(tokenValue)
                 .and()
@@ -138,10 +53,52 @@ public class PostControllerTest extends BaseTest {
                 .param("page", 0)
                 .param("size", 10)
                 .when()
-                .get("/api/post")
+                .get("/api/search/user/location/Veles")
                 .then()
                 .statusCode(HttpStatus.SC_OK)
-                .body("numberOfElements", equalTo(3))
+                .body("numberOfElements", equalTo(1))
+        ;
+    }
+
+    @Test
+    public void getAllPostsByCity() {
+        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
+
+        given(documentationSpec)
+                .accept("application/json")
+                .filter(document("getPostsByCity"))
+                .auth()
+                .oauth2(tokenValue)
+                .and()
+                .with()
+                .param("page", 0)
+                .param("size", 10)
+                .when()
+                .get("/api/search/post/location/Veles")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("numberOfElements", equalTo(1))
+        ;
+    }
+
+    @Test
+    public void getAllPostsByTitle() {
+        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
+
+        given(documentationSpec)
+                .accept("application/json")
+                .filter(document("getPostsByTitle"))
+                .auth()
+                .oauth2(tokenValue)
+                .and()
+                .with()
+                .param("page", 0)
+                .param("size", 10)
+                .when()
+                .get("/api/search/post/title/Title")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("numberOfElements", equalTo(1))
         ;
     }
 }

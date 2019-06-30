@@ -104,4 +104,47 @@ public class UserControllerTest extends BaseTest {
                 .body("lastName", equalTo("NewLName"))
         ;
     }
+
+    @Test
+    public void deleteUser() throws FileNotFoundException {
+        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
+
+        File file = ResourceUtils.getFile("classpath:data/updateUser.json");
+
+        given(documentationSpec)
+                .accept("application/json")
+                .filter(document("deleteUser"))
+                .auth()
+                .oauth2(tokenValue)
+                .and()
+                .with()
+                .body(file)
+                .contentType(ContentType.JSON)
+                .when()
+                .put("/api/user/3")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+        ;
+    }
+
+    @Test
+    public void getAllUsers() {
+        final var tokenValue = obtainAccessToken("clientId", "user", "pass");
+
+        given(documentationSpec)
+                .accept("application/json")
+                .filter(document("getUserChronologically"))
+                .auth()
+                .oauth2(tokenValue)
+                .and()
+                .with()
+                .param("page", 0)
+                .param("size", 10)
+                .when()
+                .get("/api/user")
+                .then()
+                .statusCode(HttpStatus.SC_OK)
+                .body("numberOfElements", equalTo(3))
+        ;
+    }
 }

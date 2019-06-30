@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <appender name="FILTERS-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/demo-network-filters.rolling.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/%d{yyyy-MM,aux}/demo-network-filters.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf-8</charset>
+            <Pattern>${FILTER_LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILTERS-APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <appender-ref ref="FILTERS-FILE"/>
+    </appender>
+</included>

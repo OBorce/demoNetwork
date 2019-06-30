@@ -27,14 +27,6 @@ public class UserController {
         return service.getAllNetworkUsers(pageRequest);
     }
 
-    @GetMapping("/location/{city}")
-    public Page<NetworkUserDTO> getAllUsersByLocation(@RequestParam(name = "page") int page,
-                                                      @RequestParam(name = "size") int size,
-                                                      @PathVariable String city) {
-        var pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.asc("dateCreated")));
-        return service.getAllNetworkUsersByCity(pageRequest, city);
-    }
-
     @GetMapping("/{id}")
     public NetworkUserDTO getUser(@PathVariable long id) {
         return service.getNetworkUserById(id);

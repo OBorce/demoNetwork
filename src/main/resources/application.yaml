@@ -5,10 +5,3 @@ spring:
 server:
   port: 8080
 
-security:
-  jwt:
-    key-store: classpath:demo.jks
-    key-store-password: P@ssw0rd
-    key-pair-alias: demo
-    key-pair-password: P@ssw0rd
-

@@ -4,14 +4,12 @@ import com.example.demo.dto.PostDTO;
 import com.example.demo.request.PostRequest;
 import com.example.demo.service.PostService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/post")
@@ -23,8 +21,10 @@ public class PostController {
     }
 
     @GetMapping
-    public Page<PostDTO> getAllPosts(Pageable page) {
-        return service.getAllPosts(page);
+    public Page<PostDTO> getAllPosts(@RequestParam(name = "page") int page,
+                                     @RequestParam(name = "size") int size) {
+        var pageRequest = PageRequest.of(page, size, Sort.by(Sort.Order.asc("dateCreated")));
+        return service.getAllPosts(pageRequest);
     }
 
     @GetMapping("/{id}")
@@ -38,7 +38,7 @@ public class PostController {
     }
 
     @PutMapping("/{id}")
-    public PostDTO createPost(@PathVariable long id, @Valid @RequestBody PostRequest req) {
+    public PostDTO updatePost(@PathVariable long id, @Valid @RequestBody PostRequest req) {
         return service.updatePost(id, req);
     }
 

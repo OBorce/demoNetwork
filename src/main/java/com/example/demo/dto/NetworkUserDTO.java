@@ -5,6 +5,7 @@ import com.example.demo.entity.NetworkUser;
 import java.time.LocalDateTime;
 
 public class NetworkUserDTO {
+    private long id;
     private String nickname;
     private String firstName;
     private String lastName;
@@ -12,6 +13,7 @@ public class NetworkUserDTO {
     private LocationDTO location;
 
     public NetworkUserDTO(NetworkUser u) {
+        id = u.getId();
         nickname = u.getNickname();
         firstName = u.getFirstName();
         lastName = u.getLastName();
@@ -28,6 +30,10 @@ public class NetworkUserDTO {
         this.lastName = lastName;
         this.dateCreated = dateCreated;
         this.location = location;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getNickname() {

@@ -11,7 +11,7 @@ public class NetworkUser {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "nickname")
+    @Column(name = "nickname", nullable = false)
     private String nickname;
 
     @Column(name = "first_name")
@@ -20,7 +20,7 @@ public class NetworkUser {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "date_created")
+    @Column(name = "date_created", nullable = false)
     private LocalDateTime dateCreated;
 
     @ManyToOne
@@ -37,6 +37,10 @@ public class NetworkUser {
         this.lastName = lastName;
         this.dateCreated = dateCreated;
         this.location = location;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getNickname() {
@@ -73,5 +77,17 @@ public class NetworkUser {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "NetworkUser{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", location=" + location +
+                '}';
     }
 }

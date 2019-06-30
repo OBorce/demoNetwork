@@ -3,22 +3,23 @@ package com.example.demo.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(schema = "demo", name = "location")
+@Table(schema = "demo", name = "location",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"longitude", "latitude"})})
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "longitude")
+    @Column(name = "longitude", nullable = false)
     private float longitude;
 
-    @Column(name = "latitude")
+    @Column(name = "latitude", nullable = false)
     private float latitude;
 
-    @Column(name = "city")
+    @Column(name = "city", nullable = false)
     private String city;
 
-    @Column(name = "country")
+    @Column(name = "country", nullable = false)
     private String country;
 
     public Location() {
@@ -45,5 +46,16 @@ public class Location {
 
     public String getCountry() {
         return country;
+    }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
     }
 }

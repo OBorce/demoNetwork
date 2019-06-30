@@ -10,17 +10,17 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "title")
+    @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "date_created")
+    @Column(name = "date_created", nullable = false)
     private LocalDateTime dateCreated;
 
     @ManyToOne
-    @JoinColumn(name = "created_by")
+    @JoinColumn(name = "created_by", nullable = false)
     private NetworkUser createdBy;
 
     @ManyToOne
@@ -37,6 +37,10 @@ public class Post {
         this.dateCreated = dateCreated;
         this.createdBy = createdBy;
         this.location = location;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -69,5 +73,17 @@ public class Post {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", dateCreated=" + dateCreated +
+                ", createdBy=" + createdBy +
+                ", location=" + location +
+                '}';
     }
 }

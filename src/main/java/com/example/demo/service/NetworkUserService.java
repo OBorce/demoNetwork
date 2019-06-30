@@ -7,6 +7,8 @@ import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.repository.NetworkUserRepository;
 import com.example.demo.repository.UserDetailsRepository;
 import com.example.demo.request.NetworkUserRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class NetworkUserService {
+    private static final Logger log = LoggerFactory.getLogger(NetworkUserService.class);
+
     private final UserDetailsRepository userDetailsRepository;
     private final NetworkUserRepository repository;
     private final LocationService locationService;
@@ -30,17 +34,20 @@ public class NetworkUserService {
     }
 
     public NetworkUserDTO getNetworkUserById(long id) {
+        log.debug("finding user by id {}", id);
         return repository.findById(id)
                 .map(NetworkUserDTO::new)
                 .orElseThrow(UserNotFoundException::new);
     }
 
     public Page<NetworkUserDTO> getAllNetworkUsers(Pageable pageable) {
+        log.debug("getting all user by date created");
         return repository.findAll(pageable)
                 .map(NetworkUserDTO::new);
     }
 
     public void deleteNetworkUserById(long id) {
+        log.debug("deleting existing user with id {}", id);
         repository.deleteById(id);
     }
 
@@ -56,6 +63,7 @@ public class NetworkUserService {
                 req.getLastName(),
                 dateCreated,
                 location);
+        log.debug("creating new user {}", networkUser);
         return new NetworkUserDTO(repository.save(networkUser));
     }
 
@@ -70,6 +78,7 @@ public class NetworkUserService {
         networkUser.setLastName(req.getLastName());
         networkUser.setLocation(location);
 
+        log.debug("updating existing user {}", networkUser);
         return new NetworkUserDTO(networkUser);
     }
 
@@ -80,6 +89,12 @@ public class NetworkUserService {
 
     public NetworkUser findById(long id) {
         return repository.findById(id)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    public NetworkUserDTO getAllUsersWithNickname(String nickname) {
+        return repository.findByNickname(nickname)
+                .map(NetworkUserDTO::new)
                 .orElseThrow(UserNotFoundException::new);
     }
 }

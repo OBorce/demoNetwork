@@ -24,14 +24,63 @@ The User api consists of the flowing routes:
 Getting an existing user by ID:
 include::{snippets}/getUser/http-request.adoc[]
 
-Which will return a response if the user is found like:
-include::{snippets}/getUser/http-response.adoc[]
-
 Creating a new user is done with a request like
 include::{snippets}/createUser/http-request.adoc[]
+
+Deleting an existing user is done with a request like
+include::{snippets}/deleteUser/http-request.adoc[]
 
 Also updating an existing user is done with a request like
 include::{snippets}/updateUser/http-request.adoc[]
 
 All operation of getting, creating and updating an user return a response of the form:
 include::{snippets}/getUser/http-response.adoc[]
+
+Also we can get all users chronologically by date created with:
+include::{snippets}/getUserChronologically/http-request.adoc[]
+And get a page response like:
+include::{snippets}/getUserChronologically/http-response.adoc[]
+
+== Post api
+
+The Post api consists of the flowing routes:
+
+Getting an existing post by ID:
+include::{snippets}/getPost/http-request.adoc[]
+
+Which will return a response if the user is found like:
+include::{snippets}/getPost/http-response.adoc[]
+
+Creating a new post is done with a request like
+include::{snippets}/createPost/http-request.adoc[]
+
+Deleting an existing post is done with a request like
+include::{snippets}/deletePost/http-request.adoc[]
+
+Also updating an existing post is done with a request like
+include::{snippets}/updatePost/http-request.adoc[]
+
+All operation of getting, creating and updating an post return a response of the form:
+include::{snippets}/getPost/http-response.adoc[]
+
+Also we can get all posts chronologically by date created with:
+include::{snippets}/getPostChronologically/http-request.adoc[]
+And get a page response like:
+include::{snippets}/getPostChronologically/http-response.adoc[]
+
+== Search api
+
+Finally we can search users and posts:
+
+Searching users by city, which will return a page of users all located in the city
+include::{snippets}/getUserByCity/http-request.adoc[]
+
+Searching posts by city, which will return a page of posts
+include::{snippets}/getUserByCity/http-request.adoc[]
+
+Searching a user by a nickname
+include::{snippets}/getUserWithNickname/http-request.adoc[]
+
+Searching posts by title, which will return a page of posts with the searched title
+include::{snippets}/getPostByTitle/http-request.adoc[]
+
