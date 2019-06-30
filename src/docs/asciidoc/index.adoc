@@ -1,0 +1,37 @@
+= Demo Network REST Docs
+Boris Oncev;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+
+
+
+Sample demo social network demonstrating, searching, adding, deleting and updating users and posts,
+as a OAuth2 Resource server.
+
+== Getting an access token
+
+In order to use the resource server we need to get an access token through:
+include::{snippets}/getToken/curl-request.adoc[]
+For which we need an already registered application with its client id and secret,
+and an authenticated user's credentials.
+The token can later be used to access information of the users and posts on the network.
+
+== User api
+
+The User api consists of the flowing routes:
+
+Getting an existing user by ID:
+include::{snippets}/getUser/http-request.adoc[]
+
+Which will return a response if the user is found like:
+include::{snippets}/getUser/http-response.adoc[]
+
+Creating a new user is done with a request like
+include::{snippets}/createUser/http-request.adoc[]
+
+Also updating an existing user is done with a request like
+include::{snippets}/updateUser/http-request.adoc[]
+
+All operation of getting, creating and updating an user return a response of the form:
+include::{snippets}/getUser/http-response.adoc[]
